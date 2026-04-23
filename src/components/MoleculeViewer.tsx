@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Candidate } from "@/lib/mockData";
+import { pickMoleculeFor } from "@/lib/molecules";
 import { Copy, Box, Circle, Hexagon } from "lucide-react";
 
 declare global {
