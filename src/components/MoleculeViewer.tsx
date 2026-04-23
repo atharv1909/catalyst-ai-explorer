@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Candidate } from "@/lib/mockData";
+import { pickMoleculeFor } from "@/lib/molecules";
 import { Copy, Box, Circle, Hexagon } from "lucide-react";
 
 declare global {
@@ -30,6 +31,7 @@ export function MoleculeViewer({
   const viewerRef = useRef<any>(null);
   const [style, setStyle] = useState<Style>("stick");
   const [ready, setReady] = useState(false);
+  const [molLabel, setMolLabel] = useState<string>("");
 
   useEffect(() => {
     if (!open || !candidate) return;
@@ -38,37 +40,47 @@ export function MoleculeViewer({
     const t = setTimeout(() => {
       const el = containerRef.current;
       if (!el) return;
-      // Wait for $3Dmol script
       const tryInit = (attempt = 0) => {
         if (typeof window === "undefined") return;
         if (!window.$3Dmol) {
-          if (attempt > 30) return;
-          setTimeout(() => tryInit(attempt + 1), 200);
+          if (attempt > 40) return;
+          setTimeout(() => tryInit(attempt + 1), 150);
           return;
         }
         try {
           el.innerHTML = "";
           const viewer = window.$3Dmol.createViewer(el, {
-            backgroundColor: "transparent",
+            backgroundColor: "#0a0f1e",
+            backgroundAlpha: 1,
           });
           viewerRef.current = viewer;
-          let smiles = candidate.smiles || "CCO";
-          try {
-            viewer.addModel(smiles, "smi");
-          } catch {
-            viewer.addModel("CCO", "smi");
-          }
+          const mol = pickMoleculeFor(candidate.name, candidate.smiles || "CCO");
+          setMolLabel(mol.label);
+          viewer.addModel(mol.xyz, "xyz");
           applyStyle(viewer, style);
           viewer.zoomTo();
+          viewer.zoom(1.2);
+          viewer.rotate(20, "x");
           viewer.render();
+          // Gentle auto-rotate for visual appeal
+          try {
+            viewer.spin("y", 0.4);
+          } catch {
+            /* noop */
+          }
           setReady(true);
-        } catch {
+        } catch (err) {
           // Fallback: ethanol
           try {
             el.innerHTML = "";
-            const viewer = window.$3Dmol.createViewer(el, { backgroundColor: "transparent" });
+            const viewer = window.$3Dmol.createViewer(el, {
+              backgroundColor: "#0a0f1e",
+              backgroundAlpha: 1,
+            });
             viewerRef.current = viewer;
-            viewer.addModel("CCO", "smi");
+            const fallback = pickMoleculeFor("ethanol", "CCO");
+            setMolLabel(fallback.label);
+            viewer.addModel(fallback.xyz, "xyz");
             applyStyle(viewer, style);
             viewer.zoomTo();
             viewer.render();
@@ -79,9 +91,16 @@ export function MoleculeViewer({
         }
       };
       tryInit();
-    }, 120);
+    }, 150);
 
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      try {
+        viewerRef.current?.spin?.(false);
+      } catch {
+        /* noop */
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, candidate]);
 
@@ -94,12 +113,14 @@ export function MoleculeViewer({
 
   function applyStyle(v: any, s: Style) {
     v.setStyle({}, {});
-    if (s === "stick") v.setStyle({}, { stick: { colorscheme: "cyanCarbon", radius: 0.18 } });
-    if (s === "sphere") v.setStyle({}, { sphere: { colorscheme: "cyanCarbon", scale: 0.35 } });
+    if (s === "stick")
+      v.setStyle({}, { stick: { colorscheme: "cyanCarbon", radius: 0.18 } });
+    if (s === "sphere")
+      v.setStyle({}, { sphere: { colorscheme: "cyanCarbon", scale: 0.4 } });
     if (s === "cartoon")
       v.setStyle({}, {
-        stick: { colorscheme: "cyanCarbon", radius: 0.12 },
-        sphere: { colorscheme: "cyanCarbon", scale: 0.22 },
+        stick: { colorscheme: "cyanCarbon", radius: 0.14 },
+        sphere: { colorscheme: "cyanCarbon", scale: 0.28 },
       });
   }
 
@@ -146,9 +167,9 @@ export function MoleculeViewer({
                 </button>
               ))}
             </div>
-            <div className="absolute bottom-3 left-3 right-3 panel rounded-md p-2.5 text-[11px] font-mono text-muted-foreground flex justify-between">
+            <div className="absolute bottom-3 left-3 right-3 panel rounded-md p-2.5 text-[11px] font-mono text-muted-foreground flex flex-wrap gap-2 justify-between">
               <span>Drag to rotate · Scroll to zoom · Shift+drag to pan</span>
-              <span className="text-cyan">SMILES: {candidate?.smiles}</span>
+              <span className="text-cyan">Rendered: {molLabel || "—"}</span>
             </div>
           </div>
 

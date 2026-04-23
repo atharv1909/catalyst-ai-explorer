@@ -36,6 +36,21 @@ function QueryPage() {
   const [temp, setTemp] = useState("350");
   const [pressure, setPressure] = useState("18");
   const [family, setFamily] = useState("ZSM-5 Zeolites");
+
+  const REACTIONS = [
+    "Ethanol → Jet-range hydrocarbons (C8–C16)",
+    "Ethanol → Ethylene (dehydration)",
+    "Ethanol → Butadiene (Lebedev process)",
+    "Ethanol → Acetaldehyde (oxidative)",
+    "Ethanol → 1-Butanol (Guerbet coupling)",
+    "Methanol → Olefins (MTO)",
+    "Methanol → Gasoline (MTG)",
+    "CO₂ + H₂ → Methanol (hydrogenation)",
+    "CO₂ + H₂ → Jet fuel (Fischer–Tropsch)",
+    "Syngas → Higher alcohols",
+    "Glycerol → Propylene glycol",
+    "Furfural → 2-Methylfuran",
+  ];
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
 
@@ -95,11 +110,18 @@ function QueryPage() {
                 <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
                   Target Reaction
                 </Label>
-                <Input
-                  value={reaction}
-                  onChange={(e) => setReaction(e.target.value)}
-                  className="mt-1.5 font-mono bg-input/60 border-border focus-visible:ring-cyan"
-                />
+                <Select value={reaction} onValueChange={setReaction}>
+                  <SelectTrigger className="mt-1.5 font-mono bg-input/60 focus:ring-cyan">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {REACTIONS.map((r) => (
+                      <SelectItem key={r} value={r} className="font-mono text-xs">
+                        {r}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
