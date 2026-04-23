@@ -13,6 +13,13 @@ export interface LoggedResult {
   date: string;
 }
 
+export interface QueryParams {
+  reaction: string;
+  temp: string;
+  pressure: string;
+  family: string;
+}
+
 interface Ctx {
   candidates: Candidate[];
   selected: Candidate | null;
@@ -23,6 +30,8 @@ interface Ctx {
   addLoggedResult: (r: LoggedResult) => void;
   retrainCounter: number;
   modelVersion: string;
+  query: QueryParams;
+  setQuery: (q: QueryParams) => void;
 }
 
 const CatalystContext = createContext<Ctx | null>(null);
