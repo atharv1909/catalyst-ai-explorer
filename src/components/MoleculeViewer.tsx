@@ -167,9 +167,9 @@ export function MoleculeViewer({
                 </button>
               ))}
             </div>
-            <div className="absolute bottom-3 left-3 right-3 panel rounded-md p-2.5 text-[11px] font-mono text-muted-foreground flex justify-between">
+            <div className="absolute bottom-3 left-3 right-3 panel rounded-md p-2.5 text-[11px] font-mono text-muted-foreground flex flex-wrap gap-2 justify-between">
               <span>Drag to rotate · Scroll to zoom · Shift+drag to pan</span>
-              <span className="text-cyan">SMILES: {candidate?.smiles}</span>
+              <span className="text-cyan">Rendered: {molLabel || "—"}</span>
             </div>
           </div>
 
