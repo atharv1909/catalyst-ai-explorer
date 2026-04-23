@@ -78,8 +78,10 @@ export function CatalystProvider({ children }: { children: ReactNode }) {
       addLoggedResult,
       retrainCounter,
       modelVersion,
+      query,
+      setQuery,
     }),
-    [selected, shortlist, loggedResults, retrainCounter, modelVersion],
+    [selected, shortlist, loggedResults, retrainCounter, modelVersion, query],
   );
 
   return <CatalystContext.Provider value={value}>{children}</CatalystContext.Provider>;
