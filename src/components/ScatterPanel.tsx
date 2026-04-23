@@ -121,33 +121,28 @@ export function ScatterPanel() {
         </div>
       </div>
 
-      <div className="flex-1 min-h-[420px]">
-        <ResponsiveContainer width="100%" height={450}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
-            <defs>
-              <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="0.6" fill="oklch(0.5 0.04 250 / 0.25)" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-            <CartesianGrid stroke="var(--border)" strokeDasharray="2 4" opacity={0.5} />
+      <div className="flex-1 min-h-[460px]">
+        <ResponsiveContainer width="100%" height={480}>
+          <ScatterChart margin={{ top: 24, right: 28, bottom: 56, left: 56 }}>
+            <CartesianGrid stroke="oklch(0.35 0.04 250 / 0.5)" strokeDasharray="3 5" />
 
             <ReferenceArea
-              x1={0.7}
+              x1={0.75}
               x2={1}
-              y1={0.7}
+              y1={0.75}
               y2={1}
-              fill="var(--cyan)"
-              fillOpacity={0.05}
-              stroke="var(--cyan)"
-              strokeOpacity={0.4}
-              strokeDasharray="3 3"
+              fill="#22d3ee"
+              fillOpacity={0.08}
+              stroke="#22d3ee"
+              strokeOpacity={0.55}
+              strokeDasharray="4 4"
               label={{
-                value: "★ HIGH ACTIVITY / HIGH SELECTIVITY",
+                value: "★ STAR ZONE — High Activity & Selectivity",
                 position: "insideTopRight",
-                fill: "var(--cyan)",
-                fontSize: 10,
+                fill: "#22d3ee",
+                fontSize: 11,
                 fontFamily: "var(--font-mono)",
+                fontWeight: 600,
               }}
             />
 
@@ -155,41 +150,50 @@ export function ScatterPanel() {
               type="number"
               dataKey="x"
               domain={[0.5, 1]}
-              tick={{ fill: "var(--muted-foreground)", fontSize: 11, fontFamily: "var(--font-mono)" }}
-              stroke="var(--border)"
+              ticks={[0.5, 0.6, 0.7, 0.8, 0.9, 1.0]}
+              tickFormatter={(v) => v.toFixed(2)}
+              tick={{ fill: "oklch(0.85 0.02 250)", fontSize: 12, fontFamily: "var(--font-mono)" }}
+              stroke="oklch(0.5 0.04 250)"
+              tickLine={{ stroke: "oklch(0.5 0.04 250)" }}
               label={{
-                value: "Selectivity Score",
+                value: "Selectivity Score  →",
                 position: "insideBottom",
-                offset: -10,
-                fill: "var(--muted-foreground)",
-                fontSize: 11,
+                offset: -18,
+                fill: "oklch(0.85 0.02 250)",
+                fontSize: 12,
                 fontFamily: "var(--font-mono)",
+                fontWeight: 600,
               }}
             />
             <YAxis
               type="number"
               dataKey="y"
               domain={[0.5, 1]}
-              tick={{ fill: "var(--muted-foreground)", fontSize: 11, fontFamily: "var(--font-mono)" }}
-              stroke="var(--border)"
+              ticks={[0.5, 0.6, 0.7, 0.8, 0.9, 1.0]}
+              tickFormatter={(v) => v.toFixed(2)}
+              tick={{ fill: "oklch(0.85 0.02 250)", fontSize: 12, fontFamily: "var(--font-mono)" }}
+              stroke="oklch(0.5 0.04 250)"
+              tickLine={{ stroke: "oklch(0.5 0.04 250)" }}
               label={{
-                value: "Activity Score (TOF proxy)",
+                value: "Activity Score (TOF proxy)  →",
                 angle: -90,
                 position: "insideLeft",
-                fill: "var(--muted-foreground)",
-                fontSize: 11,
+                offset: 0,
+                fill: "oklch(0.85 0.02 250)",
+                fontSize: 12,
                 fontFamily: "var(--font-mono)",
+                fontWeight: 600,
               }}
             />
-            <ZAxis dataKey="z" range={[60, 300]} />
+            <ZAxis dataKey="z" range={[80, 360]} />
             <Tooltip
-              cursor={{ stroke: "var(--cyan)", strokeOpacity: 0.3, strokeDasharray: "3 3" }}
+              cursor={{ stroke: "#22d3ee", strokeOpacity: 0.4, strokeDasharray: "3 3" }}
               content={({ active, payload }) => {
                 if (!active || !payload || !payload.length) return null;
                 const c: Candidate = payload[0].payload.candidate;
                 return (
                   <div className="panel rounded-md p-3 text-xs font-mono shadow-xl">
-                    <div className="font-semibold text-foreground">{c.name}</div>
+                    <div className="font-semibold text-foreground">#{c.rank} · {c.name}</div>
                     <div className="mt-1.5 space-y-0.5 text-muted-foreground">
                       <div>Activity: <span className="text-cyan">{c.activity.toFixed(3)}</span></div>
                       <div>Selectivity: <span className="text-cyan">{c.selectivity.toFixed(3)}</span></div>
