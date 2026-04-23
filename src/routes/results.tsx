@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CandidateTable } from "@/components/CandidateTable";
 import { ScatterPanel } from "@/components/ScatterPanel";
 import { CandidateDetail } from "@/components/CandidateDetail";
+import { useCatalyst } from "@/context/CatalystContext";
 
 export const Route = createFileRoute("/results")({
   head: () => ({
@@ -14,13 +15,16 @@ export const Route = createFileRoute("/results")({
 });
 
 function ResultsPage() {
+  const { query, candidates } = useCatalyst();
+  // Shorten very long reaction labels for the header
+  const shortReaction = query.reaction.split(" (")[0];
   return (
     <div className="mx-auto max-w-[1600px] px-4 md:px-6 py-5">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div>
           <h1 className="font-mono text-xl font-semibold">Results Dashboard</h1>
           <p className="text-xs text-muted-foreground font-mono mt-0.5">
-            Ethanol → Jet · ZSM-5 Zeolites · 350°C · 18 bar · 31 candidates returned
+            {shortReaction} · {query.family} · {query.temp}°C · {query.pressure} bar · {candidates.length} candidates returned
           </p>
         </div>
         <div className="flex gap-2 text-[10px] font-mono">
