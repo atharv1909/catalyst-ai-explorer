@@ -36,6 +36,21 @@ function QueryPage() {
   const [temp, setTemp] = useState("350");
   const [pressure, setPressure] = useState("18");
   const [family, setFamily] = useState("ZSM-5 Zeolites");
+
+  const REACTIONS = [
+    "Ethanol → Jet-range hydrocarbons (C8–C16)",
+    "Ethanol → Ethylene (dehydration)",
+    "Ethanol → Butadiene (Lebedev process)",
+    "Ethanol → Acetaldehyde (oxidative)",
+    "Ethanol → 1-Butanol (Guerbet coupling)",
+    "Methanol → Olefins (MTO)",
+    "Methanol → Gasoline (MTG)",
+    "CO₂ + H₂ → Methanol (hydrogenation)",
+    "CO₂ + H₂ → Jet fuel (Fischer–Tropsch)",
+    "Syngas → Higher alcohols",
+    "Glycerol → Propylene glycol",
+    "Furfural → 2-Methylfuran",
+  ];
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
 
