@@ -5,6 +5,12 @@ import { CandidateDetail } from "@/components/CandidateDetail";
 import { useCatalyst } from "@/context/CatalystContext";
 
 export const Route = createFileRoute("/results")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    reaction: typeof search.reaction === "string" ? search.reaction : undefined,
+    temp: typeof search.temp === "string" ? search.temp : undefined,
+    pressure: typeof search.pressure === "string" ? search.pressure : undefined,
+    family: typeof search.family === "string" ? search.family : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Results Dashboard — CatalystIQ" },
@@ -16,15 +22,21 @@ export const Route = createFileRoute("/results")({
 
 function ResultsPage() {
   const { query, candidates } = useCatalyst();
-  // Shorten very long reaction labels for the header
-  const shortReaction = query.reaction.split(" (")[0];
+  const search = Route.useSearch();
+  const displayQuery = {
+    reaction: search.reaction ?? query.reaction,
+    family: search.family ?? query.family,
+    temp: search.temp ?? query.temp,
+    pressure: search.pressure ?? query.pressure,
+  };
+  const shortReaction = displayQuery.reaction.split(" (")[0];
   return (
     <div className="mx-auto max-w-[1600px] px-4 md:px-6 py-5">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div>
           <h1 className="font-mono text-xl font-semibold">Results Dashboard</h1>
           <p className="text-xs text-muted-foreground font-mono mt-0.5">
-            {shortReaction} · {query.family} · {query.temp}°C · {query.pressure} bar · {candidates.length} candidates returned
+            {shortReaction} · {displayQuery.family} · {displayQuery.temp}°C · {displayQuery.pressure} bar · {candidates.length} candidates returned
           </p>
         </div>
         <div className="flex gap-2 text-[10px] font-mono">
