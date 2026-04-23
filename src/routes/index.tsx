@@ -33,10 +33,11 @@ const STEPS = [
 
 function QueryPage() {
   const navigate = useNavigate();
-  const [reaction, setReaction] = useState("Ethanol → Jet-range hydrocarbons (C8–C16)");
-  const [temp, setTemp] = useState("350");
-  const [pressure, setPressure] = useState("18");
-  const [family, setFamily] = useState("ZSM-5 Zeolites");
+  const { query, setQuery } = useCatalyst();
+  const [reaction, setReaction] = useState(query.reaction);
+  const [temp, setTemp] = useState(query.temp);
+  const [pressure, setPressure] = useState(query.pressure);
+  const [family, setFamily] = useState(query.family);
 
   const REACTIONS = [
     "Ethanol → Jet-range hydrocarbons (C8–C16)",
