@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCatalyst } from "@/context/CatalystContext";
 
 export const Route = createFileRoute("/")({
   head: () => ({
