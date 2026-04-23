@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCatalyst } from "@/context/CatalystContext";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,10 +33,11 @@ const STEPS = [
 
 function QueryPage() {
   const navigate = useNavigate();
-  const [reaction, setReaction] = useState("Ethanol → Jet-range hydrocarbons (C8–C16)");
-  const [temp, setTemp] = useState("350");
-  const [pressure, setPressure] = useState("18");
-  const [family, setFamily] = useState("ZSM-5 Zeolites");
+  const { query, setQuery } = useCatalyst();
+  const [reaction, setReaction] = useState(query.reaction);
+  const [temp, setTemp] = useState(query.temp);
+  const [pressure, setPressure] = useState(query.pressure);
+  const [family, setFamily] = useState(query.family);
 
   const REACTIONS = [
     "Ethanol → Jet-range hydrocarbons (C8–C16)",
@@ -55,6 +57,7 @@ function QueryPage() {
   const [step, setStep] = useState(0);
 
   const onRun = () => {
+    setQuery({ reaction, temp, pressure, family });
     setRunning(true);
     setStep(0);
     let i = 0;

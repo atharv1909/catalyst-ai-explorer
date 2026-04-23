@@ -13,6 +13,13 @@ export interface LoggedResult {
   date: string;
 }
 
+export interface QueryParams {
+  reaction: string;
+  temp: string;
+  pressure: string;
+  family: string;
+}
+
 interface Ctx {
   candidates: Candidate[];
   selected: Candidate | null;
@@ -23,6 +30,8 @@ interface Ctx {
   addLoggedResult: (r: LoggedResult) => void;
   retrainCounter: number;
   modelVersion: string;
+  query: QueryParams;
+  setQuery: (q: QueryParams) => void;
 }
 
 const CatalystContext = createContext<Ctx | null>(null);
@@ -33,6 +42,12 @@ export function CatalystProvider({ children }: { children: ReactNode }) {
   const [loggedResults, setLoggedResults] = useState<LoggedResult[]>(initialLoggedResults);
   const [retrainCounter, setRetrainCounter] = useState(3);
   const [modelVersion, setModelVersion] = useState("v3.2");
+  const [query, setQuery] = useState<QueryParams>({
+    reaction: "Ethanol → Jet-range hydrocarbons (C8–C16)",
+    temp: "350",
+    pressure: "18",
+    family: "ZSM-5 Zeolites",
+  });
 
   const toggleShortlist = (name: string) =>
     setShortlist((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
@@ -63,8 +78,10 @@ export function CatalystProvider({ children }: { children: ReactNode }) {
       addLoggedResult,
       retrainCounter,
       modelVersion,
+      query,
+      setQuery,
     }),
-    [selected, shortlist, loggedResults, retrainCounter, modelVersion],
+    [selected, shortlist, loggedResults, retrainCounter, modelVersion, query],
   );
 
   return <CatalystContext.Provider value={value}>{children}</CatalystContext.Provider>;
