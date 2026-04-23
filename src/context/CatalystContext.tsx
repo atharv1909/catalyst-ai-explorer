@@ -42,6 +42,12 @@ export function CatalystProvider({ children }: { children: ReactNode }) {
   const [loggedResults, setLoggedResults] = useState<LoggedResult[]>(initialLoggedResults);
   const [retrainCounter, setRetrainCounter] = useState(3);
   const [modelVersion, setModelVersion] = useState("v3.2");
+  const [query, setQuery] = useState<QueryParams>({
+    reaction: "Ethanol → Jet-range hydrocarbons (C8–C16)",
+    temp: "350",
+    pressure: "18",
+    family: "ZSM-5 Zeolites",
+  });
 
   const toggleShortlist = (name: string) =>
     setShortlist((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
