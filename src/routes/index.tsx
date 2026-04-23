@@ -110,11 +110,18 @@ function QueryPage() {
                 <Label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
                   Target Reaction
                 </Label>
-                <Input
-                  value={reaction}
-                  onChange={(e) => setReaction(e.target.value)}
-                  className="mt-1.5 font-mono bg-input/60 border-border focus-visible:ring-cyan"
-                />
+                <Select value={reaction} onValueChange={setReaction}>
+                  <SelectTrigger className="mt-1.5 font-mono bg-input/60 focus:ring-cyan">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {REACTIONS.map((r) => (
+                      <SelectItem key={r} value={r} className="font-mono text-xs">
+                        {r}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
