@@ -57,6 +57,7 @@ function QueryPage() {
   const [step, setStep] = useState(0);
 
   const onRun = () => {
+    setQuery({ reaction, temp, pressure, family });
     setRunning(true);
     setStep(0);
     let i = 0;
