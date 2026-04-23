@@ -38,6 +38,11 @@ export const Route = createRootRoute({
       { property: "og:title", content: "CatalystIQ — AI-Accelerated Molecular Discovery" },
       { property: "og:description", content: "AI-accelerated catalyst discovery for sustainable Ethanol-to-Jet fuel synthesis." },
       { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "CatalystIQ — AI-Accelerated Molecular Discovery" },
+      { name: "twitter:description", content: "AI-accelerated catalyst discovery for sustainable Ethanol-to-Jet fuel synthesis." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/51116862-7fe8-4125-80d1-18e184dedf11/id-preview-66ba1e24--7b89fd50-7c26-4e2a-93de-ffb703317e31.lovable.app-1776968993298.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/51116862-7fe8-4125-80d1-18e184dedf11/id-preview-66ba1e24--7b89fd50-7c26-4e2a-93de-ffb703317e31.lovable.app-1776968993298.png" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
