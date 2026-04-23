@@ -57,7 +57,8 @@ function QueryPage() {
   const [step, setStep] = useState(0);
 
   const onRun = () => {
-    setQuery({ reaction, temp, pressure, family });
+    const nextQuery = { reaction, temp, pressure, family };
+    setQuery(nextQuery);
     setRunning(true);
     setStep(0);
     let i = 0;
@@ -68,7 +69,14 @@ function QueryPage() {
         setTimeout(tick, 750);
       } else {
         setStep(STEPS.length);
-        setTimeout(() => navigate({ to: "/results" }), 500);
+        setTimeout(
+          () =>
+            navigate({
+              to: "/results",
+              search: nextQuery,
+            }),
+          500,
+        );
       }
     };
     setTimeout(tick, 750);
