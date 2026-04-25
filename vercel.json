@@ -1,8 +1,8 @@
 {
+  "buildCommand": "npm run build && node scripts/prerender.mjs",
+  "outputDirectory": "dist/client",
+  "framework": null,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
